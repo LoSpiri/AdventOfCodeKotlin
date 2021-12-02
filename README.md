@@ -1,6 +1,6 @@
 # AdventOfCodeTemplate
 
-Welcome to the Advent of Code[^aoc] Kotlin project created by [spyrox16][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
+Welcome to the Advent of Code[^aoc] Kotlin project created by [LoSpiri][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
 
 In this repository, spyrox16 is about to provide solutions for the puzzles using [Kotlin][kotlin] language.
 
