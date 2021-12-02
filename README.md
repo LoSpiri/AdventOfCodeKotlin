@@ -1,5 +1,9 @@
 # AdventOfCodeTemplate
 
+<div align="center">
+<img hight="300" width="700" alt="GIF" align="center" src="https://c.tenor.com/2uoTk06PaHYAAAAC/santa-merry.gif">
+</div>
+
 Welcome to the Advent of Code[^aoc] Kotlin project created by [LoSpiri][github] using the [Advent of Code Kotlin Template][template] delivered by JetBrains.
 
 In this repository, spyrox16 is about to provide solutions for the puzzles using [Kotlin][kotlin] language.
