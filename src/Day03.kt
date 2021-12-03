@@ -60,12 +60,12 @@ fun main() {
             i++
         }
         var oxy = 0
-        for(i in 0 until arr[0].length){
-            oxy += if(arr[0][i]=='1') (Math.pow(2.toDouble(),(arr[0].length-i-1).toDouble())).toInt() else 0
+        for(j in 0 until arr[0].length){
+            oxy += if(arr[0][j]=='1') (Math.pow(2.toDouble(),(arr[0].length-j-1).toDouble())).toInt() else 0
         }
         var co2 = 0
-        for(i in 0 until arr[0].length){
-            co2 += if(arr2[0][i]=='1') (Math.pow(2.toDouble(),(arr2[0].length-i-1).toDouble())).toInt() else 0
+        for(k in 0 until arr[0].length){
+            co2 += if(arr2[0][k]=='1') (Math.pow(2.toDouble(),(arr2[0].length-k-1).toDouble())).toInt() else 0
         }
         return oxy*co2
 
