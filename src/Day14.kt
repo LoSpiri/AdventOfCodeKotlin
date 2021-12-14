@@ -1,9 +1,14 @@
 
-fun <K> increment(map: MutableMap<K, Long>, key: K) {
-    if (map.computeIfPresent(key, { _, v -> v + 1.toLong() }) == null) {
+
+fun <K> increment(map: MutableMap<K, Long>, key: K) {                         // The one below is a better version of this I found online
+    if (map.computeIfPresent(key, { _, v -> v + 1.toLong() }) == null) {      // But I still like to keep this one also
         map[key] = 1.toLong()
     }
 }
+
+fun <T> MutableMap<T, Long>.inc(k: T, i: Long = 1) = set(k, get(k)?.plus(i) ?: i)
+fun <T> MutableMap<T, Long>.dec(k: T, i: Long) = set(k, get(k)?.minus(i) ?: error(""))
+
 
 fun main() {
 
@@ -35,63 +40,46 @@ fun main() {
     }
 
     fun part2(input: List<String>): Long {
-        var template = input[0]
-        var map = mutableMapOf<String, String>()
-        for (i in 2 until input.size) {
-            val recipe = input[i].split(" -> ")
-            map[recipe[0]] = recipe[1]
-        }
 
-        var mapRes = mutableMapOf<Char, Long>()
-        var res = StringBuilder()
+        val pairs: MutableMap<Pair<Char, Char>, Char> = mutableMapOf()
+        var template: MutableMap<Pair<Char, Char>, Long> = mutableMapOf()
 
-        val windows = template.windowed(2, 1)
-        for (i in windows) {
-
-            template = i
-            repeat(20) {
-                res.clear()
-                res.append(template[0])
-                for (j in 0 until template.length - 1) {
-                    res.append(map[template.substring(j, j + 2)]!!)
-                    res.append(template[j + 1])
-                }
-                template = res.toString()
-            }
-
-            val windowed = template.windowed(2, 1)
-            for (h in windowed) {
-                template = h
-                repeat(20) {
-                    res.clear()
-                    res.append(template[0])
-                    for (j in 0 until template.length - 1) {
-                        res.append(map[template.substring(j, j + 2)]!!)
-                        res.append(template[j + 1])
-                    }
-                    template = res.toString()
-                }
-                for (k in res) {
-                    increment(mapRes, k)
-
+        input.forEach { line ->
+            if (line.indexOf(">") > 0) {
+                line.split(" -> ").let { x -> pairs[x[0][0] to x[0][1]] = x[1][0] }
+            } else if (line != "") {
+                for (i in 0 until line.length - 1) {
+                    template.inc(line[i] to line[i + 1])
                 }
             }
         }
-        val mostCommon = mapRes.maxByOrNull { it.value }?.value ?: -1
-        val leastCommon = mapRes.minByOrNull { it.value }?.value ?: -1
 
-        return mostCommon - leastCommon
+        repeat(40) {
+            val t = template.toMutableMap()
+            for (pair in pairs) {
+                val quantity = template[pair.key] ?: 0
+                if (quantity > 0) {
+                    t.dec(pair.key, quantity)
+                    t.inc(pair.key.first to pair.value, quantity)
+                    t.inc(pair.value to pair.key.second, quantity)
+                }
+            }
+            template = t
+        }
+
+        val letters = mutableMapOf<Char, Long>()
+        for (e in template) {
+            letters.inc(e.key.first, e.value)
+        }
+        letters.map { it.value }.let {
+            return (it.maxOrNull()!! - it.minOrNull()!! - 1)
+        }
+        return 0
     }
-
-
-
-
-
-
 
     val inputTest = readInput("Day14Test")
     println(part1(inputTest))
-    //println(part2(inputTest))
+    println(part2(inputTest))
 
     val input = readInput("Day14")
     println(part1(input))
