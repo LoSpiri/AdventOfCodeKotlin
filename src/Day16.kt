@@ -2,6 +2,7 @@
 fun main() {
 
     fun part1(input: List<String>): Int {
+        /*
         var str = ""
         for(i in input[0]){
             str += when (i) {
@@ -24,19 +25,25 @@ fun main() {
                 else-> ""
             }
         }
+         */
+
+        val hex = Integer.parseInt(input[0],16)
+        val str = Integer.toBinaryString(hex)
 
         var versionSum = 0
         var pointer = 0
         while(pointer<str.length){
-            versionSum += Integer.parseInt("${str.substring(pointer,pointer+3)}",2)
+            versionSum += Integer.parseInt(str.substring(pointer,pointer+3),2)
             pointer += 3
-            val typeId = Integer.parseInt("${str.substring(pointer,pointer+3)}",2)
+            val typeId = Integer.parseInt(str.substring(pointer,pointer+3),2)
             pointer += 3
             if(typeId==4){
                 //literal value
             }
             else{
                 if(str[pointer]=='0'){
+                    pointer++
+                    val subPacketsLength = Integer.parseInt(str.substring(pointer,pointer+15),2)
                     //next 15 bits = length in bits of sub-packets
                 }
                 else{
